@@ -15,7 +15,7 @@ fn main() {
         println!("{:08b}", byte);
     }
 
-    let mut output = File::create("output.txt").expect("failed to write to create file");
+    let mut output = File::create("output.bin").expect("failed to write to create file");
 
     output.write_all(&result).expect("Failed to write output");
 }
