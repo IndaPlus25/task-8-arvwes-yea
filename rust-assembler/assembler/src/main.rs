@@ -1,11 +1,18 @@
+use std::fs::File;
+use std::io::{self, Read, Write};
+
 mod assembler;
 use assembler::assemble;
 
 fn main() {
-    let input = std::fs::read_to_string("input.txt").expect("Failed to read file");
+    let mut input = String::new();
+    io::stdin()
+        .read_to_string(&mut input)
+        .expect("failed to read file");
+
     let result = assemble(&input);
-    for byte in &result {
-    println!("{:08b}", byte); // prints 8-bits 
-}
-  
+
+    let mut output = File::create("output.obexe").expect("failed to write to create file");
+
+    output.write_all(&result).expect("Failed to write output");
 }
