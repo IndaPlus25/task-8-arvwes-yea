@@ -26,7 +26,7 @@ const R3: Registry = 0b11;
 
 fn main() {
     
-    let lines: Vec<u8> = fs::read(&env::args().collect()[1]).expect("File read error");
+    let lines: Vec<u8> = fs::read(&env::args().collect::<Vec<_>>()[1]).expect("File read error");
 
     let mut pc: usize = 0;
 
@@ -37,7 +37,7 @@ fn main() {
 
     let mut memory: [u8; 512] = [0; 512];
     
-    let length: u32 = lines.len();
+    let length: u32 = lines.len() as u32;
 
     while pc < lines.len() {
         match (lines[pc] >> 5) & 0b111 {
@@ -51,7 +51,7 @@ fn main() {
             _ => println!("Invalid operation on line {}!", pc),
         }
 
-        pc++;
+        pc += 1;
     }
 }
 
@@ -96,7 +96,7 @@ fn input_memory(reg: &i32) {
     for character in line {
 
 
-        i++;
+        i += 1;
     }
 }
 

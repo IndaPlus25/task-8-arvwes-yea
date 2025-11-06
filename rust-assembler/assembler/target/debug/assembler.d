@@ -1,1 +1,1 @@
-/home/lenarv/task-8-arvwes/task-8-arvwes/rust-assembler/assembler/target/debug/assembler: /home/lenarv/task-8-arvwes/task-8-arvwes/rust-assembler/assembler/src/assembler.rs /home/lenarv/task-8-arvwes/task-8-arvwes/rust-assembler/assembler/src/main.rs
+/home/lenarv/task-8-arvwes-yea/rust-assembler/assembler/target/debug/assembler: /home/lenarv/task-8-arvwes-yea/rust-assembler/assembler/src/assembler.rs /home/lenarv/task-8-arvwes-yea/rust-assembler/assembler/src/main.rs

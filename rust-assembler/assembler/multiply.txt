@@ -1,0 +1,10 @@
+>>>vv><^^<<<v>^^>>* does call 6 (input from consol) and stores to r1
+^^^^><^^<<<v>^^^>>>>* does does call 6 (input from consol) and stores to r2
+>>>^^^^<^>>>>>^^^<<<<* sets r3 to 0 
+loop:
+<^vv<<v^<<* adds R2 to R3 and stors in R3
+^^^^>^^<<vv>* subtracts 1 from R1
+vvv>>>v>>>v^^>* if R1 = 0 jump once
+>>^^><><* jumps 3 steps back
+<^^^>>* prints R3 
+

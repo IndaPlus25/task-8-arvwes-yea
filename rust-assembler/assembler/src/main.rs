@@ -11,8 +11,11 @@ fn main() {
         .expect("failed to read file");
 
     let result = assemble(&input);
+    for byte in &result {
+        println!("{:08b}", byte);
+    }
 
-    let mut output = File::create("output.obexe").expect("failed to write to create file");
+    let mut output = File::create("output.txt").expect("failed to write to create file");
 
     output.write_all(&result).expect("Failed to write output");
 }
