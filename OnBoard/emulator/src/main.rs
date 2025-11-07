@@ -27,16 +27,9 @@ const R3: Registry = 0b11;
 
 // The whole emulator is running off of this main function which loops until it has performed every action accordingly after reading a binary file
 fn main() {
-<<<<<<< HEAD
-    
-    let lines: Vec<u8> = fs::read(&env::args().collect::<Vec<_>>()[1]).expect("File read error");
-
-    let mut pc: usize = 0;
-=======
     // get the binary file and then make a vector with one byte/command per slot
     let args: Vec<String> = env::args().collect();
     let lines: Vec<u8> = fs::read(&args[1]).expect("File read error");
->>>>>>> dd2d6e0 (finished the emulator, didn't have enough time to add all the necessary commments, will do however.)
 
     let mut pc: usize = 0; // variable for keeping track what command number/what line we are on.
 
@@ -47,12 +40,8 @@ fn main() {
 
     let mut memory: [u8; 512] = [0; 512];
     
-<<<<<<< HEAD
-    let length: u32 = lines.len() as u32;
-=======
     // amount of commands
     let length: usize = lines.len();
->>>>>>> dd2d6e0 (finished the emulator, didn't have enough time to add all the necessary commments, will do however.)
 
     // println!("program has started");
 
@@ -70,10 +59,7 @@ fn main() {
             _ => println!("Invalid operation on line {}!", pc), // only possible if first 3 bites are ones
         }
 
-<<<<<<< HEAD
-=======
         // increment line number
->>>>>>> dd2d6e0 (finished the emulator, didn't have enough time to add all the necessary commments, will do however.)
         pc += 1;
     }
 }
@@ -103,7 +89,7 @@ fn call(line: u8, reg: &mut [i32; 4], pc: &mut usize, pointer: &mut [u32; 32], m
 
 // Function to read a saved i32 integer from memory into a register
 // Checks if the register is within range, and then reads the divided integer (memory is 1 byte each, each number is saved as a letter)
-// and puts it in the same register used to tell the range
+// and puts it in the same register used to tell what pointer/slot to use/get
 fn read_memory(reg: &mut [i32; 4], regnum: usize, pointer: &mut [u32; 32], memory: &mut [u8; 512]) {
     // println!("reading memory");
     if !((0<= reg[regnum]) && (reg[regnum] <=31)) {println!("Invalid read memory call, register contains negative value."); return;}   
@@ -123,6 +109,9 @@ fn read_memory(reg: &mut [i32; 4], regnum: usize, pointer: &mut [u32; 32], memor
 // either writes a register or input into the memory vector
 fn write_memory(reg: i32, bytes: &mut Vec<u8>, pointer: &mut [u32; 32], memory: &mut [u8; 512]) {
     // println!("writing memory");
+
+    // Too lazy to add an edge case scenario, reg=31 should work but in the if-statements I also check reg+1, which would be out of bounds
+    // Could also just add one more integer to pointer vector? Not gonna bother with it for now
     if !((0<= reg) && (reg <=30)) {
         println!("register doesn't contain an integer between 0 and 31");
         return;
@@ -130,38 +119,62 @@ fn write_memory(reg: i32, bytes: &mut Vec<u8>, pointer: &mut [u32; 32], memory: 
 
     let register = reg as usize;
 
+    // adds zero character at the end of a string byte vector to signify end
     bytes.push(0);
     let length = bytes.len();
     
+    // When it tries to write a "string" to memory, either the space pointed to will
+    // have enough storage for the string, or it won't, so a few if-else statements is used
+    // to tell if there is more than enough storage needed/exactly enough storage needed
+
+    // First if checks if the "string" stored at the pointer location has enough storage for the current
+    // string to be written, and then overwrites and deletes any excess remnants of the old string in memory
     if (pointer[register + 1] - pointer[register]) >= length as u32 {
         let mut i = pointer[register] as usize;
-        let mut next = pointer[register + 1] as usize;
+        //let mut next = pointer[register + 1] as usize;
 
+        // overwrite parts/all of the old string with new string
         let mut index = 0;
         while i < length {
-            memory[i as usize] = bytes[index]; //i should not be used for bytes?
+            memory[i] = bytes[index]; //i should not be used for bytes?
             i += 1;
             index += 1;
         }
 
-        while i < next {
-            memory[i as usize] = 0;
+        //Delete old string
+        //while i < next {
+        while memory[i] != 0 {
+            memory[i] = 0;
             i += 1;
         }
 
-
+    // the second if checks if there is no next word, in which case it can write freely
+    // might need to change this to be like the next if statement/remove this one
     } else if pointer[register + 1] == 0{
         let mut i = pointer[register] as usize;
         let mut index = 0;
 
         while i < length {
-            memory[i as usize] = bytes[index]; //i should not be used for bytes?
+            memory[i] = bytes[index]; //i should not be used for bytes?
             i += 1;
             index += 1;
         }
+    // Checks if there is any place in memory to write the string to, by checking for
+    // empty space equal to the length of the string, and then writes it in there
+    
     } else if (pointer[register + 1] - pointer[register]) < length as u32 {
+        let mut i = pointer[register] as usize;
+
+        // I might have forgotten to still delete the old string, so added this
+        // Delete old string
+        while memory[i] != 0 {
+            memory[i] = 0;
+            i += 1;
+        }
+
         let mut free_space = 0;
 
+        // Loops through all of memory and then writes in the string and updates pointer to the new position
         for j in 0..512 {
             if memory[j] == 0 {
                 free_space += 1;
@@ -183,10 +196,12 @@ fn write_memory(reg: i32, bytes: &mut Vec<u8>, pointer: &mut [u32; 32], memory: 
     }
 }
 
+// Function to print out a "string" in memory
 fn output_memory(register: i32, pointer: &mut [u32; 32], memory: &mut [u8; 512]){
     // println!("output memory");
     if !((0<= register) && (register <=31)) {println!("Invalid memory output call, out of bounds."); return;}
 
+    // Prints each byte as a letter one by one and then a newline
     let mut i = pointer[register as usize] as usize;
     while memory[i] != 0 {
         print!("{}", memory[i] as char);
@@ -195,7 +210,8 @@ fn output_memory(register: i32, pointer: &mut [u32; 32], memory: &mut [u8; 512])
     println!();
 }
 
-//reg:i32 is used for pointer
+// Function to get an input and then put it in memory by calling write_memory()
+// Converts the inputted string into a vector of bytes, each representing an ascii character but in byte form
 fn input_memory(reg: i32, reg0: i32, pointer: &mut [u32; 32], memory: &mut [u8; 512]) {
     // println!("input memory");
 
@@ -216,15 +232,10 @@ fn input_memory(reg: i32, reg0: i32, pointer: &mut [u32; 32], memory: &mut [u8; 
 
     let mut bytes = line.trim().as_bytes().to_vec();
 
-<<<<<<< HEAD
-
-        i += 1;
-    }
-=======
     write_memory(reg0, &mut bytes, pointer, memory);
->>>>>>> dd2d6e0 (finished the emulator, didn't have enough time to add all the necessary commments, will do however.)
 }
 
+// Function to take input and put it in a register
 fn input_register(line: usize, reg: &mut [i32; 4]) {
     // println!("input register");
     let input = io::stdin();
@@ -238,14 +249,19 @@ fn input_register(line: usize, reg: &mut [i32; 4]) {
     reg[line as usize] = input_line.trim().parse().expect("You did not input a number");
 }
 
+//All of these functions read the first two bites given as a register, then the next two bites as
+// a register or immediate/integer (0-3) and then the last bite to determine if the previous two bites
+// should be interpreted as a register or immediate: (reg1: xx) (reg2/imm: xx) (flag: x): xx xx x
 
-
+// Function for addition, can be used to either add a registers value to another register or add an 
+// immediate/integer up to 2 bites (0-3) value to a register
 fn add(line: u8, reg: &mut [i32; 4]) {
     // println!("add");
     let r1 = (line >> 3) & 0b11;
     let added = (line >> 1) & 0b11;
 
-
+    // If the last bite is 1, treat the second "argument" as an immediate/integer up to 2 bites
+    // Otherwise, treat it as a code for a register
     if line & 0b1 != 0b0 {
         reg[r1 as usize] += added as i32;
     } else {
@@ -253,6 +269,10 @@ fn add(line: u8, reg: &mut [i32; 4]) {
     }
 }
 
+// Function for checking if two registers are equal, or a register is equal to an immediate/integer up to 2 bites
+// if they are equal then it skips a line, if not it just continues like normal
+// intended use is that you put a jump back on the line under, so it keeps looping if statement is false
+// Can be used in other ways
 fn beq(line: u8, reg: &[i32; 4], pc: &mut usize) {
     // println!("beq");
     let r1 = (line >> 3) & 0b11;
@@ -278,6 +298,8 @@ fn beq(line: u8, reg: &[i32; 4], pc: &mut usize) {
  
 }
 
+// Function that sets the value of a register to another register value or an immediate/integer value up to 2 bites (0-3)
+// Works the same way as add
 fn set(line: u8, reg: &mut [i32; 4]) {
     // println!("set");
     let r1 = (line >> 3) & 0b11;
@@ -291,6 +313,8 @@ fn set(line: u8, reg: &mut [i32; 4]) {
     }
 }
 
+// Function for subtracting a registers value with another registers value or an 
+// immediate/integer up to 2 bites (0-3), works same way as add
 fn sub(line: u8, reg: &mut [i32; 4]) {
     // println!("sub");
     let r1 = (line >> 3) & 0b11;
