@@ -1,18 +1,29 @@
->>>vv>call<^^<<<vSET>^^>R1>* does call 6 (input from consol) and stores to r1
-^^^^>call<^^<<<vSET>^^^>>>R2>* does does call 6 (input from consol) and stores to r2
+>>>vv>call<^^<<<vSET>^^>R1<* does call 6 (input from consol) and stores to r1
+vv<SET>^^^>>>R2^<<0<*
+<^ADD<<<vvR2<<vR1v*
+>>vSUB^^^R2vv<<v1>*
+vvv>>>BEQ<<vR2vv<<v1^*
+>>>>vJ^<<<vvv<10<* jumps to multi
+^^>>>vJ>SETv*
+ <JB<>JB>*
 
 multi:
->>>^^^^<SET^>>>>>^R3^^<<<0<* sets r3 to 0 
+^SET^>>>>>^R3^^<<<0<* sets r3 to 0 
+
 loop:
 <^ADDvv<<vR3^<R2<* adds R2 to R3 and stors in R3
-^^^^>SUB^^<<R1vv1>* subtracts 1 from R1
-vvv>>>BEQv>>>vR1^^0>* if R1 = 0 jump once
->>^^>JB<>JB<* jumps 3 steps back
-Set R1 R3
-<CAL^SUB^^>R3>* prints R3 
+^^^^>SUB^^<<R1vv1^* subtracts 1 from R1
+>>>>vJ^<<<vvv<3>*
+^^^>>>vJ<<SUB>*
+v>JB>^6^*
+vBEQv>>>vR1^^0>* if R1 = 0 jump once
+>>^^>JB>^SETv* jumps 6 steps back
+add set r1 r3
+<JB<>JB<*
+<add call
 
-set r0 = 6
-Set r1 = r0
+
+Set r1 = 6
 set r2 = r0
 
 sub r2 1
