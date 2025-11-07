@@ -1,31 +1,20 @@
->>>vv><^^<<<v>^^><* does  6 (input fom consol) and stoes to 
+>>>vv><^^<<<v>^^><* 
 vv<>^^^>>>^<<<*
 <^<<<vv<<vv*
 >>v^^^vv<<v>*
 vvv>>><<vvv<<v^*
->>>>v^<<<vvv<<* umps to multi
-^^>>>v>v*
- <<>>*
-
-multi:
-^^>>>>>^^^<<<<* s  to  
-
-loop:
-<^vv<<v^<<* s  to  and stos in 
-^^^^>^^<<vv^* tacts  fom 
+>>>>v^<<<vvv<<* 
+^^^>>>>>v>v*
+<<>>*
+^^>>>>>^^^<<<<*
+<^vv<<v^<<* 
+^^^^>^^<<vv^*
 >>>>v^<<<vvv<>*
 ^^^>>>v<<>*
 v>>^^*
-vv>>>v^^>* if  =  ump once
->>^^>>^v* umps 6 steps ack
-<<><*
-
-
-  = 6
-  = 
-
-  
-  
-ump
-ump
-multiply(, )-> 
+<<vvvv>v>>>v^^>*
+>>^^>>^v*
+^>^^>^^<*
+<^>vvv>>>>^*
+^^^><^<>*
+v<^^^<<<*

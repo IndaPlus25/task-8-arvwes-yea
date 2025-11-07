@@ -4,7 +4,7 @@ vv<SET>^^^>>>R2^<<0<*
 >>vSUB^^^R2vv<<v1>*
 vvv>>>BEQ<<vR2vv<<v1^*
 >>>>vJ^<<<vvv<10<* jumps to multi
-^^>>>vJ>SETv*
+^^^>>>>>vJ>SETv*
  <JB<>JB>*
 
 multi:
@@ -16,11 +16,12 @@ loop:
 >>>>vJ^<<<vvv<3>*
 ^^^>>>vJ<<SUB>*
 v>JB>^6^*
-vBEQv>>>vR1^^0>* if R1 = 0 jump once
+<<vvvv>BEQv>>>vR1^^0>* if R1 = 0 jump once
 >>^^>JB>^SETv* jumps 6 steps back
-add set r1 r3
-<JB<>JB<*
-<add call
+^SET>^^>R1^^0<*
+<^ADD>vvv>R1>>>R3^*
+^^^>JB<^<SUB>*
+v<Cal^SUB^^<<R1<*
 
 
 Set r1 = 6
