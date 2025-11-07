@@ -5,7 +5,7 @@ vv<SET>^^^>>>R2^<<0<*
 vvv>>>BEQ<<vR2vv<<v1^*
 >>>>vJ^<<<vvv<10<* jumps to multi
 ^^^>>>>>vJ>SETv*
- <JB<>JB>*
+ <JB>v^*
 
 multi:
 ^SET^>>>>>^R3^^<<<0<* sets r3 to 0 
